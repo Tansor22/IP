@@ -5,15 +5,19 @@
 #ifndef IP_ITPPRINTER_H
 #define IP_ITPPRINTER_H
 
+#include <string>
 #include "ImageToProcess.fwd.h"
 #include "ItpPrinter.fwd.h"
 
+using namespace std;
 
 class ItpPrinter {
 public:
     ItpPrinter() = default;
+
     void Print(const ImageToProcess &itp);
-    void Print(const char *message, const ImageToProcess &itp);
+
+    void Print(const string& message, const ImageToProcess &itp);
 };
 
 

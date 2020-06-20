@@ -15,6 +15,7 @@ const ImageId LENA_ZOOMED = 4;
 
 const ImageId HOCKEY = 5;
 const ImageId BUTTERFLY = 6;
+const ImageId GIRL_N_BICYCLE = 7;
 
 typedef unsigned int FillType;
 const FillType ZEROS = 0;
@@ -28,10 +29,5 @@ const Canal B = 4;
 const Canal A = 8;
 const Canal GRAY = 16;
 
-// mutators
-typedef unsigned int MutatorId;
-const MutatorId DERIVATIVE_X = 0;
-const MutatorId DERIVATIVE_Y = 1;
-const MutatorId GAUSS_BLUR = 3;
 
 #endif //IP_PROJECTCONSTANTS_H

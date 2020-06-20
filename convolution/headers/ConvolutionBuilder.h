@@ -11,7 +11,7 @@ class ConvolutionBuilder {
 public:
     ConvolutionBuilder() : _convolution(new Convolution) {};
 
-    ~ConvolutionBuilder() {delete _convolution;};
+    ~ConvolutionBuilder() { delete _convolution; };
 
     ConvolutionBuilder *WithImage(ImageToProcess *itp) {
         _convolution->_itp = itp;
@@ -28,8 +28,32 @@ public:
         return this;
     };
 
+    ConvolutionBuilder *WithOperation(string operationName) {
+        _convolution->_operation = operationName;
+        return this;
+    };
+
+    ConvolutionBuilder *WithOutOfBoundPolicy(OutOfBoundPolicy *policy) {
+        _convolution->_tool->_policy = policy;
+        return this;
+    };
+
+    ConvolutionBuilder *WithClipFlag(bool flag) {
+        _convolution->_tool->_clipFlag = flag;
+        return this;
+    };
+
+    ConvolutionBuilder *WithNormalization(void (*normalization)(Canal, double *&, int)) {
+        _convolution->_normalization = normalization;
+        return this;
+    };
+
+    ConvolutionBuilder *NoClip() {
+        return WithClipFlag(false);
+    };
+
     void Apply() { _convolution->Apply(); };
-private:
+protected:
     Convolution *_convolution;
 
 };

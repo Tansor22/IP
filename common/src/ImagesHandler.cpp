@@ -53,6 +53,8 @@ QPixmap ImagesHandler::GetImageByImageId(ImageId id) {
             return GetImageViaFileName(_imagesPath + "/input/lena.jpg");
         case LENA_ZOOMED:
             return GetImageViaFileName(_imagesPath + "/input/lena_zoomed.jpg");
+        case GIRL_N_BICYCLE:
+            return GetImageViaFileName(_imagesPath + "/input/girl_n_bicycle.jpg");
         default:
             qDebug() << "Unknown ImageId: " << id << '\n';
             exit(EXIT_FAILURE);
@@ -75,6 +77,8 @@ std::string ImagesHandler::GetImageNameById(ImageId id) {
             return "LENA";
         case LENA_ZOOMED:
             return "LENA_ZOOMED";
+        case GIRL_N_BICYCLE:
+            return "GIRL_N_BICYCLE";
         default:
             qDebug() << "Unknown ImageId: " << id << '\n';
             return "UNKNOWN";

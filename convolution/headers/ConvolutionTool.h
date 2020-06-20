@@ -5,21 +5,29 @@
 #ifndef IP_CONVOLUTIONTOOL_H
 #define IP_CONVOLUTIONTOOL_H
 
+#include "OutOfBoundPolicy.h"
+#include "MirrorPolicy.h"
 
 class ConvolutionTool {
+    friend class ConvolutionBuilder;
+
 public:
-    virtual double *Process(int w, int h, int nCanals, double *toProcess,
-                            int kernelW, int kernelH, double *kernel, double divider = 1.0) = 0;
-    virtual ~ConvolutionTool() = default;
+    ConvolutionTool() : _policy(new MirrorPolicy()), _clipFlag(true) {};
+
+    virtual double *
+    Process(int w, int h, double *toProcess, int kernelW, int kernelH, double *kernel, double divider) = 0;
+
+    virtual ~ConvolutionTool() { delete _policy; };
+
 protected:
 
-    // todo добавить
-//double *Process(ImageToProcess ??? itp,
-//        int kernelW, int kernelH, double *kernel, double divider = 1.0);
-    double *_Reduce(int nCanals, const double *toReduce, int length);
+    double Reduce(const double *toReduce, int length);
 
-    double _Clip(double num, double max, double min);
+    double Clip(double num, double max, double min);
 
+protected:
+    OutOfBoundPolicy *_policy;
+    bool _clipFlag;
 };
 
 

@@ -40,6 +40,11 @@ void ImageToProcess::Save(string fileName, const string &format) {
         fileName = "IMAGE_";
         fileName += _name;
     }
+    if (_type == GRAY) {
+        fileName += "_GRAY";
+    } else {
+        fileName += "_RGB";
+    }
     fileName += ".";
     fileName += format;
 
@@ -50,3 +55,34 @@ void ImageToProcess::Save(string fileName, const string &format) {
 void ImageToProcess::Save(ImageId imageId, const string &format) {
     Save(ImagesHandler::Instance()->GetImageNameById(imageId), format);
 }
+
+ImageToProcess::ImageToProcess(const ImageToProcess &other) {
+    _name = "COPY_" + string(other._name);
+    _type = other._type;
+    _canalsCount = other._canalsCount;
+    _w = other._w;
+    _h = other._h;
+    _h = other._h;
+    _size = other._size;
+    _data = new double[_size * _canalsCount];
+    std::copy(other._data, other._data + other._size * other._canalsCount, _data);
+    ReportOperation("Copying", this);
+}
+
+ImageToProcess &ImageToProcess::operator=(const ImageToProcess &other) {
+    _name = "ASSIGNED_" + string(other._name);
+    _type = other._type;
+    _canalsCount = other._canalsCount;
+    _w = other._w;
+    _h = other._h;
+    _h = other._h;
+    _size = other._size;
+
+    auto newData = new double[_size * _canalsCount];
+    std::copy(other._data, other._data + other._size * other._canalsCount, newData);
+    delete _data;
+    _data = newData;
+    ReportOperation("ASSIGNING", this);
+    return *this;
+}
+

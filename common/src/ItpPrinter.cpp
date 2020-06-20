@@ -11,7 +11,9 @@ void ItpPrinter::Print(const ImageToProcess &itp) {
     ProjectHelper::PrintAsMatrix(itp._w, itp._h, itp._data);
 }
 
-void ItpPrinter::Print(const char *message, const ImageToProcess &itp) {
-    qDebug() << message << endl;
-    ProjectHelper::PrintAsMatrix(itp._w, itp._h, itp._data);
+void ItpPrinter::Print(const string& message, const ImageToProcess &itp) {
+    if (itp._name.rfind("SAMPLE", 0) == 0) {
+        qDebug() << QString::fromStdString(message) << endl;
+        ProjectHelper::PrintAsMatrix(itp._w, itp._h, itp._data);
+    }
 }

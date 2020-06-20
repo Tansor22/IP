@@ -11,8 +11,7 @@ class SequentialConvolutionTool : public ConvolutionTool {
 public:
     SequentialConvolutionTool() : ConvolutionTool() {};
 
-    double *Process(int w, int h, int nCanals, double *toProcess, int kernelW, int kernelH, double *kernel,
-                    double divider) override;
+    double *Process(int w, int h, double *toProcess, int kernelW, int kernelH, double *kernel, double divider) override;
 
 };
 

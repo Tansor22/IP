@@ -9,12 +9,16 @@
 #include <convolution/headers/Kernel.h>
 #include <common/headers/ImageToProcess.h>
 #include "ConvolutionTool.h"
+#include "SequentialConvolutionTool.h"
+#include "OutOfBoundPolicy.h"
 
 class Convolution {
     friend class ConvolutionBuilder;
 
 public:
-    Convolution() = default;
+    Convolution() : _normalization(nullptr), _itp(nullptr),
+                    _tool(new SequentialConvolutionTool), _kernel(nullptr),
+                    _operation("UNNAMED_OPERATION") {};
 
     ~Convolution() {
         // do not delete image
@@ -28,6 +32,9 @@ private:
     ImageToProcess *_itp;
     Kernel *_kernel;
     ConvolutionTool *_tool;
+    string _operation;
+
+    void (*_normalization)(Canal type, double *&data, int size);
 };
 
 

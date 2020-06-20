@@ -29,16 +29,26 @@ public:
         ReportOperation("Creating", this);
     };
 
+    // copy construct
+    ImageToProcess(const ImageToProcess& other);
+    // assignment operator
+    ImageToProcess &operator=(const ImageToProcess& other);
+
+    double &operator[](int i) {
+        return _data[i];
+    };
+
     ~ImageToProcess() {
         ReportOperation("Disposing", this);
         delete _data;
     }
 
     ImageToProcess(Canal type, double *data, int w, int h, string name = "Unnamed")
-            : _name(name), _type(type), _w(w), _h(h), _size(w * h), _data(new double[_w * _h]) {
+            : _name(name), _type(type), _w(w), _h(h), _size(w * h), _canalsCount(ProjectHelper::GetCanalsCount(_type)),
+            _data(new double[_size * _canalsCount]) {
         ReportOperation("Creating", this);
         // ???
-        std::copy(data, data + _size, _data);
+        std::copy(data, data + _size * _canalsCount, _data);
     };
 
     // savers
@@ -57,7 +67,7 @@ private:
         qDebug() << operation  << QString::fromStdString(itp->_name) << '\n';
     };
     Canal _type;
-    int _w, _h, _size;
+    int _canalsCount, _w, _h, _size;
     string _name;
     double *_data;
 };
