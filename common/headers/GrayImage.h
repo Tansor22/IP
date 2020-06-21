@@ -23,7 +23,7 @@ class GrayImage : public ImageToProcess {
 
     friend class Moravec;
 
-    friend class Harris;
+    friend class DescritorBuilder;
 
 public:
     QRgb *ToIntRGB() override;
@@ -42,7 +42,8 @@ public:
 
     // assignment operator
     GrayImage &operator=(const GrayImage &other) {
-        _name = "ASSIGNED_" + string(other._name);
+//        _name = "ASSIGNED_" + string(other._name);
+        _name = "_" + string(other._name);
         _w = other._w;
         _h = other._h;
         _size = other._size;

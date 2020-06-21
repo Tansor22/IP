@@ -11,6 +11,8 @@ struct POI {
 public:
     POI(int x, int y, double c) : x(x), y(y), c(c) {};
 
+    POI(POI const &other) = default;
+
     bool operator<(POI poi) const { return c < poi.c; }
 
     bool operator>(POI poi) const { return c > poi.c; }

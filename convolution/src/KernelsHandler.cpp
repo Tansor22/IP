@@ -6,18 +6,28 @@
 #include "convolution/headers/KernelsHandler.h"
 
 Kernel *KernelsHandler::GetSobelX() {
+//    return new Kernel(new double[9]{
+//            -1.0, 0, 1.0,
+//            -2.0, 0, 2.0,
+//            -1.0, 0, 1.0
+//    }, 3, 3);
     return new Kernel(new double[9]{
-            -1.0, 0, 1.0,
-            -2.0, 0, 2.0,
-            -1.0, 0, 1.0
+            1.0, 0, -1.0,
+            2.0, 0, -2.0,
+            1.0, 0, -1.0
     }, 3, 3);
 }
 
 Kernel *KernelsHandler::GetSobelY() {
+//    return new Kernel(new double[9]{
+//            -1.0, -2.0, -1.0,
+//            0.0, 0.0, 0.0,
+//            1.0, 2.0, 1.0
+//    }, 3, 3);
     return new Kernel(new double[9]{
-            -1.0, -2.0, -1.0,
+            1.0, 2.0, 1.0,
             0.0, 0.0, 0.0,
-            1.0, 2.0, 1.0
+            -1.0, -2.0, -1.0
     }, 3, 3);
 }
 

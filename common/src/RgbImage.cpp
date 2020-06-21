@@ -15,11 +15,11 @@ QRgb *RgbImage::ToIntRGB() {
 
 void RgbImage::Convolution(ConvolutionTool *tool, Kernel *kernel) {
     auto *processedR = tool->Process(_w, _h, _r,
-                                     kernel->_w, kernel->_h, kernel->_data, 0);
+                                     kernel->_w, kernel->_h, kernel->_data);
     auto *processedG = tool->Process(_w, _h, _g,
-                                     kernel->_w, kernel->_h, kernel->_data, 0);
+                                     kernel->_w, kernel->_h, kernel->_data);
     auto *processedB = tool->Process(_w, _h, _b,
-                                     kernel->_w, kernel->_h, kernel->_data, 0);
+                                     kernel->_w, kernel->_h, kernel->_data);
 
     delete _r;
     delete _g;
@@ -65,5 +65,23 @@ void RgbImage::Mark(vector<POI> &pois, int crossSize, QRgb color) {
             _policy->SetValue(_g, _w, _h, poi.x, poi.y + i, qGreen(color));
             _policy->SetValue(_b, _w, _h, poi.x, poi.y + i, qBlue(color));
         }
+    }
+}
+
+RgbImage::RgbImage(ImageToProcess *other) : ImageToProcess(*other) {
+    if (other->GetColorPrefix().rfind("RGB", 0) == 0) {
+        // rgb
+        _r = new double[_size],
+        _g = new double[_size],
+        _b = new double[_size];
+
+        auto *otherRgb = dynamic_cast<RgbImage *>(other);
+        std::copy(otherRgb->_r, otherRgb->_r + otherRgb->_size, _r);
+        std::copy(otherRgb->_g, otherRgb->_g + otherRgb->_size, _g);
+        std::copy(otherRgb->_b, otherRgb->_b + otherRgb->_size, _b);
+
+    } else {
+        qDebug() << "Couldn't convert GrayImage to RgbImage!" << endl;
+        exit(EXIT_FAILURE);
     }
 }

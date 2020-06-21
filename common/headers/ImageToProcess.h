@@ -40,6 +40,8 @@ class ImageToProcess {
 
     friend class Harris;
 
+    friend class DescriptorBuilder;
+
 public:
     ImageToProcess()
             : _name("Unnamed"), _w(0), _h(0), _size(0), _policy(new MirrorPolicy) {

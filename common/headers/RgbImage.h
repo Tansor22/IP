@@ -58,6 +58,8 @@ public:
         ReportOperation("Creating", this);
     };
 
+    explicit RgbImage(ImageToProcess *other);
+
 private:
     double *_r;
     double *_g;

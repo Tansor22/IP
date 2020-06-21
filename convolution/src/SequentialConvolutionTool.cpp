@@ -5,7 +5,7 @@
 #include "convolution/headers/SequentialConvolutionTool.h"
 
 double *SequentialConvolutionTool::Process(int w, int h, double *toProcess, int kernelW, int kernelH, double *kernel,
-                                           double divider) {
+                                           double factor, double bias) {
     int ku = kernelH / 2;
     int kv = kernelW / 2;
 

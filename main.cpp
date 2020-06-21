@@ -11,6 +11,8 @@
 #include "common/headers/ImageToProcess.fwd.h"
 #include "common/headers/RgbImage.h"
 #include "convolution/headers/ConvolutionBuilder.h"
+#include "convolution/headers/BorderPolicy.h"
+#include "descriptors/headers/DescritorBuilder.h"
 #include "convolution/headers/SequentialConvolutionTool.h"
 #include "convolution/headers/KernelsHandler.h"
 #include "convolution/headers/MirrorPolicy.h"
@@ -22,7 +24,6 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // initialize required objects
-    DataRetriever dr;
     ImagesHandler *imagesHandler = ImagesHandler::Instance();
     imagesHandler->SetImagesPath(R"(C:\Users\Sergei\Documents\CLionProjects\IP\images)");
 
@@ -33,41 +34,54 @@ int main(int argc, char *argv[]) {
 
     ImageToProcess *itp = new RgbImage(pixmap, imagesHandler->GetImageNameById(imageId));
 
-    POIsFinder *poisFinder = new Moravec(GrayImage::From(itp));
-    vector<POI> pois = poisFinder->FindPOIs(1, 1000);
     auto *convolutionBuilder = new ConvolutionBuilder();
 
-    itp->Save("BEFORE_MARKED");
+    POIsFinder *poisFinder = new Harris(GrayImage::From(itp));
+    vector<POI> pois = poisFinder->FindPOIs(1, 1000);
 
-    itp->Mark(pois, 1);
+    ImageToProcess *marked = new RgbImage(itp);
 
-    itp->Save("MORAVEC_MARKED_1_1000");
-//    ImageToProcess dx, dy;
-//    dx = dy = itp;
+    //marked->Save("BEFORE_MARKED");
+
+    marked->Mark(pois, 1);
+
+    marked->Save("HARRIS_MARKED_1_1000");
+
+    DescritorBuilder descritorBuilder(GrayImage::From(itp), pois);
+
+    descritorBuilder.Build();
+
+//
+//    GrayImage dx, dy;
+//    dx = dy = *GrayImage::From(itp);
 //
 //    convolutionBuilder
 //            ->WithImage(&dx)
 //            ->WithTool(new SequentialConvolutionTool)
 //            ->WithKernel(KernelsHandler::GetSobelX())
 //            ->WithOutOfBoundPolicy(new MirrorPolicy)
-//                    ->WithOperation("GAUSS_SIGMA_2,4")
-//                    ->WithNormalization(ProjectHelper::NormalizeMinMax)
+//                    ->WithOperation("DXXXXX")
+//                    ->Normalize()
+//                    ->Save()
 //                    ->NoClip()
 //            ->Apply();
-//    dx.Save();
 //
 //    convolutionBuilder
 //            ->WithImage(&dy)
+//            ->WithOperation("DYYYYY")
 //            ->WithKernel(KernelsHandler::GetSobelY())
 //            ->Apply();
 //
-//    ImageToProcess gradientDirection = itp;
-//    for (int i = 0; i < w * h; ++i)
-//        gradientDirection[i] = atan2(dy[i], dx[i]) * 180 / M_PI + 180;
+//    GrayImage sobel = *GrayImage::From(itp);
 //
-//    gradientDirection.Save("GRADIENT_DIRECTION");
-
-    delete convolutionBuilder;
+//    sobel.Save("SOBEL_AFTER");
+//
+//    for (int i = 0; i < pixmap.width() * pixmap.height(); ++i)
+//        sobel[i] =  sqrt(dx[i] * dx[i] + dy[i] * dy[i]);
+//
+//    sobel.Save("SOBEL");
+//
+//    delete convolutionBuilder;
     return 0;
 }
 

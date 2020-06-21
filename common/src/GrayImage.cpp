@@ -36,7 +36,7 @@ GrayImage *GrayImage::From(ImageToProcess *&other) {
 
 void GrayImage::Convolution(ConvolutionTool *tool, Kernel *kernel) {
     auto *processedData = tool->Process(_w, _h, _data,
-                                        kernel->_w, kernel->_h, kernel->_data, 0);
+                                        kernel->_w, kernel->_h, kernel->_data);
     delete _data;
     _data = processedData;
 }

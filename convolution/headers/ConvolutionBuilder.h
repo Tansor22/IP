@@ -8,6 +8,8 @@
 #include "Convolution.h"
 #include "string"
 #include "common/headers/ItpPrinter.h"
+#include "ConvolutionTool.h"
+
 
 using namespace std;
 

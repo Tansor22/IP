@@ -11,7 +11,6 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
     int h = _itp._h;
     GrayImage smoothed, dx, dy;
     smoothed = dx = dy = _itp;
-    dx.Save("dsds");
 
     auto *convolutionBuilder = new ConvolutionBuilder;
 
@@ -19,7 +18,7 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
             ->WithImage(&smoothed)
             ->WithKernel(KernelsHandler::GetGauss(1.3))
             ->WithOperation("GAUSS_BLUR_SIGMA_1,3")
-            ->Save()
+           // ->Save()
             ->NoClip()
             ->Apply();
 
@@ -28,7 +27,7 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
             ->WithKernel(KernelsHandler::GetSobelX())
             ->WithOperation("DERIVATIVE_X")
             ->Normalize()
-            ->Save()
+            //->Save()
             ->NoClip()
             ->Apply();
 
@@ -37,7 +36,7 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
             ->WithImage(&dy)
             ->WithKernel(KernelsHandler::GetSobelY())
             ->WithOperation("DERIVATIVE_Y")
-            ->Save()
+            //->Save()
             ->Apply();
 
     delete convolutionBuilder;
