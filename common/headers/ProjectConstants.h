@@ -17,6 +17,8 @@ const ImageId HOCKEY = 5;
 const ImageId BUTTERFLY = 6;
 const ImageId GIRL_N_BICYCLE = 7;
 
+const ImageId CAT_DOG = 8;
+
 typedef unsigned int FillType;
 const FillType ZEROS = 0;
 const FillType ONES = 1;

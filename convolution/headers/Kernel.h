@@ -13,6 +13,10 @@ using namespace std;
 class Kernel {
     friend class Convolution;
 
+    // todo inheritance and friend class
+    friend class GrayImage;
+    friend class RgbImage;
+
 public:
     Kernel(double *data, int w, int h) : _data(nullptr), _w(w), _h(h) {
         _data = new double [_w * _h];

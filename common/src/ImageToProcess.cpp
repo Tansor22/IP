@@ -7,22 +7,6 @@
 #include "../headers/ImageToProcess.h"
 #include "../headers/ItpPrinter.h"
 
-QRgb *ImageToProcess::ToIntRGB() {
-    QRgb *output = new QRgb[_size];
-    for (int i = 0; i < _size; i++)
-        output[i] =
-                ProjectHelper::IsGray(_type)
-                ? qRgb(ProjectHelper::NormalizeReverse(_data[i]),
-                       ProjectHelper::NormalizeReverse(_data[i]),
-                       ProjectHelper::NormalizeReverse(_data[i]))
-                : qRgba(
-                        ProjectHelper::NormalizeReverse(_data[i]), // RED
-                        ProjectHelper::NormalizeReverse(_data[i + _size]), // GREEN
-                        ProjectHelper::NormalizeReverse(_data[i + _size * 2]), // BLUE
-                        ProjectHelper::IsNoAlpha(_type)
-                        ? 255 : ProjectHelper::NormalizeReverse(_data[i + _size * 3])); // ALPHA
-    return output;
-}
 
 QImage ImageToProcess::ToQImage() {
     QRgb *rgb = ToIntRGB();
@@ -36,53 +20,55 @@ QImage ImageToProcess::ToQImage() {
 }
 
 void ImageToProcess::Save(string fileName, const string &format) {
+    fileName = GetColorPrefix() += fileName;
     if (fileName.empty()) {
         fileName = "IMAGE_";
         fileName += _name;
     }
-    if (_type == GRAY) {
-        fileName += "_GRAY";
-    } else {
-        fileName += "_RGB";
-    }
+    string nameBuf = _name;
     fileName += ".";
     fileName += format;
 
     ToQImage().save(ImagesHandler::Instance()->GetImagesPath()
                     + "/output/" + QString::fromStdString(fileName), format.c_str());
+    _name = fileName;
+    ReportOperation("SAVING", this);
+    _name = nameBuf;
 }
 
 void ImageToProcess::Save(ImageId imageId, const string &format) {
     Save(ImagesHandler::Instance()->GetImageNameById(imageId), format);
 }
 
-ImageToProcess::ImageToProcess(const ImageToProcess &other) {
-    _name = "COPY_" + string(other._name);
-    _type = other._type;
-    _canalsCount = other._canalsCount;
-    _w = other._w;
-    _h = other._h;
-    _h = other._h;
-    _size = other._size;
-    _data = new double[_size * _canalsCount];
-    std::copy(other._data, other._data + other._size * other._canalsCount, _data);
-    ReportOperation("Copying", this);
-}
-
-ImageToProcess &ImageToProcess::operator=(const ImageToProcess &other) {
-    _name = "ASSIGNED_" + string(other._name);
-    _type = other._type;
-    _canalsCount = other._canalsCount;
-    _w = other._w;
-    _h = other._h;
-    _h = other._h;
-    _size = other._size;
-
-    auto newData = new double[_size * _canalsCount];
-    std::copy(other._data, other._data + other._size * other._canalsCount, newData);
-    delete _data;
-    _data = newData;
-    ReportOperation("ASSIGNING", this);
-    return *this;
-}
+//ImageToProcess::ImageToProcess(const ImageToProcess &other) {
+//    _name = "COPY_" + string(other._name);
+//    _type = other._type;
+//    _canalsCount = other._canalsCount;
+//    _w = other._w;
+//    _h = other._h;
+//    _h = other._h;
+//    _size = other._size;
+//    //_data = new double[_size * _canalsCount];
+//    _policy = other._policy;
+//    //std::copy(other._data, other._data + other._size * other._canalsCount, _data);
+//    ReportOperation("Copying", this);
+//}
+//
+//ImageToProcess &ImageToProcess::operator=(const ImageToProcess &other) {
+//    _name = "ASSIGNED_" + string(other._name);
+//    _type = other._type;
+//    _canalsCount = other._canalsCount;
+//    _w = other._w;
+//    _h = other._h;
+//    _h = other._h;
+//    _size = other._size;
+//    _policy = other._policy;
+//
+//    auto newData = new double[_size * _canalsCount];
+//    std::copy(other._data, other._data + other._size * other._canalsCount, newData);
+//    delete _data;
+//    _data = newData;
+//    ReportOperation("ASSIGNING", this);
+//    return *this;
+//}
 

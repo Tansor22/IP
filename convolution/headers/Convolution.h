@@ -16,9 +16,8 @@ class Convolution {
     friend class ConvolutionBuilder;
 
 public:
-    Convolution() : _normalization(nullptr), _itp(nullptr),
-                    _tool(new SequentialConvolutionTool), _kernel(nullptr),
-                    _operation("UNNAMED_OPERATION") {};
+    Convolution() : _normalization(false), _itp(nullptr),
+                    _tool(new SequentialConvolutionTool), _kernel(nullptr) {};
 
     ~Convolution() {
         // do not delete image
@@ -32,10 +31,8 @@ private:
     ImageToProcess *_itp;
     Kernel *_kernel;
     ConvolutionTool *_tool;
-    string _operation;
 
-    void (*_normalization)(Canal type, double *&data, int size);
+    bool _normalization;
 };
-
 
 #endif //IP_CONVOLUTION_H

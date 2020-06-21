@@ -17,7 +17,20 @@ void ProjectHelper::PrintAsMatrix(int w, int h, double *data) {
     qDebug() << str.c_str() << endl;
 }
 
-void ProjectHelper::NormalizeMinMax(Canal type, double *&data, int size) {
+void ProjectHelper::NormalizeMinMax(double *data, int size) {
+    double max = data[0];
+    double min = data[0];
+    for (int i = 0; i < size; i++) {
+        if (data[i] < min) min = data[i];
+        if (data[i] > max) max = data[i];
+    }
+    // normalizing
+    for (int i = 1; i < size; i++) {
+        data[i] = (data[i] - min) * (1.0 / (max - min));
+    }
+}
+
+void ProjectHelper::NormalizeMinMax(Canal type, double *data, int size) {
     int canalI = 0;
     // gray
     double max;
@@ -122,4 +135,15 @@ void ProjectHelper::NormalizeMinMax(Canal type, double *&data, int size) {
         // reset canal pointer
         canalI = 0;
     }
+}
+
+double *ProjectHelper::toGray(double *r, double *g, double *b, int size) {
+    auto *output = new double[size];
+    for (int i = 0; i < size; ++i)
+        output[i] = NormalizeStraight(
+                qGray(NormalizeReverse(r[i]),
+                     NormalizeReverse(g[i]),
+                     NormalizeReverse(b[i]))
+        );
+    return output;
 }

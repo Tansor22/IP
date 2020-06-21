@@ -6,10 +6,14 @@
 #define IP_CONVOLUTIONBUILDER_H
 
 #include "Convolution.h"
+#include "string"
+#include "common/headers/ItpPrinter.h"
+
+using namespace std;
 
 class ConvolutionBuilder {
 public:
-    ConvolutionBuilder() : _convolution(new Convolution) {};
+    ConvolutionBuilder() : _save(false), _operation("UNNAMED_OPERATION"), _convolution(new Convolution) {};
 
     ~ConvolutionBuilder() { delete _convolution; };
 
@@ -28,9 +32,18 @@ public:
         return this;
     };
 
-    ConvolutionBuilder *WithOperation(string operationName) {
-        _convolution->_operation = operationName;
+    ConvolutionBuilder *WithOperation(const string &operationName) {
+        _operation = operationName;
         return this;
+    };
+
+    ConvolutionBuilder *WithSaveFlag(bool saveFlag) {
+        _save = saveFlag;
+        return this;
+    };
+
+    ConvolutionBuilder *Save() {
+        return WithSaveFlag(true);
     };
 
     ConvolutionBuilder *WithOutOfBoundPolicy(OutOfBoundPolicy *policy) {
@@ -43,19 +56,35 @@ public:
         return this;
     };
 
-    ConvolutionBuilder *WithNormalization(void (*normalization)(Canal, double *&, int)) {
-        _convolution->_normalization = normalization;
+    ConvolutionBuilder *WithNormalizationFlag(bool normalizationFlag) {
+        _convolution->_normalization = normalizationFlag;
         return this;
+    };
+
+    ConvolutionBuilder *Normalize() {
+        return WithNormalizationFlag(true);
     };
 
     ConvolutionBuilder *NoClip() {
         return WithClipFlag(false);
     };
 
-    void Apply() { _convolution->Apply(); };
+    void Apply() {
+        string message = "Before" + _operation + ": ";
+        ItpPrinter().Print(message, *_convolution->_itp);
+
+
+        _convolution->Apply();
+
+        message = "After" + _operation + ": ";
+        ItpPrinter().Print(message, *_convolution->_itp);
+        if (_save)
+            _convolution->_itp->Save(_convolution->_itp->_name + " " + _operation);
+    };
 protected:
     Convolution *_convolution;
-
+    string _operation;
+    bool _save;
 };
 
 

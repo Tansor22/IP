@@ -26,7 +26,10 @@ public:
 
     static double NormalizeStraight(QRgb rgb) { return rgb / 255.0; }
 
-    static void NormalizeMinMax(Canal type, double *&data, int size);
+    static void NormalizeMinMax(Canal type, double *data, int size);
+
+    static void NormalizeMinMax(double *data, int size);
+    static double *toGray(double *r, double *g, double *b, int size);
 
     static void PrintAsMatrix(int w, int h, double *data);
 };

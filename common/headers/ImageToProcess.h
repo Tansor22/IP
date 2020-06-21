@@ -9,47 +9,55 @@
 #include <algorithm>
 #include <QPixmap>
 #include <QDebug>
+#include <pois/headers/POI.h>
 #include "ProjectConstants.h"
 #include "ProjectHelper.h"
 
 // forward declaration
 #include "ItpPrinter.fwd.h"
+#include "convolution/headers/OutOfBoundPolicy.h"
+#include "convolution/headers/ConvolutionTool.h"
+#include "convolution/headers/MirrorPolicy.h"
 #include "ImageToProcess.fwd.h"
+#include "convolution/headers/Kernel.h"
+#include "GrayImage.fwd.h"
 
 using namespace std;
 
 class ImageToProcess {
     // friends
     friend class ItpPrinter;
+
+    friend class GrayImage;
+
     friend class Convolution;
+
+    friend class ConvolutionBuilder;
+
+    friend class POIsFinder;
+
+    friend class Moravec;
+
+    friend class Harris;
 
 public:
     ImageToProcess()
-            : _name("Unnamed"), _type(0), _w(0), _h(0), _size(0), _data(new double) {
-        ReportOperation("Creating", this);
+            : _name("Unnamed"), _w(0), _h(0), _size(0), _policy(new MirrorPolicy) {
     };
 
-    // copy construct
-    ImageToProcess(const ImageToProcess& other);
-    // assignment operator
-    ImageToProcess &operator=(const ImageToProcess& other);
-
-    double &operator[](int i) {
-        return _data[i];
+    ImageToProcess(ImageToProcess const &other)
+            : _name(other._name), _w(other._w), _h(other._h), _size(other._size), _policy(other._policy) {
     };
 
-    ~ImageToProcess() {
-        ReportOperation("Disposing", this);
-        delete _data;
-    }
+    ImageToProcess(const QPixmap &pixmap, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy) :
+            _name(name), _w(pixmap.width()), _h(pixmap.height()), _size(_w * _h), _policy(policy) {};
 
-    ImageToProcess(Canal type, double *data, int w, int h, string name = "Unnamed")
-            : _name(name), _type(type), _w(w), _h(h), _size(w * h), _canalsCount(ProjectHelper::GetCanalsCount(_type)),
-            _data(new double[_size * _canalsCount]) {
-        ReportOperation("Creating", this);
-        // ???
-        std::copy(data, data + _size * _canalsCount, _data);
-    };
+    ImageToProcess(int w, int h, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy) :
+            _name(name), _w(w), _h(h), _size(_w * _h), _policy(policy) {};
+
+    virtual string GetColorPrefix() = 0;
+
+    virtual double &operator[](int i) = 0;
 
     // savers
     void Save(string fileName = string(), const string &format = "JPG");
@@ -57,19 +65,24 @@ public:
     void Save(ImageId imageId, const string &format = "JPG");
 
     // mappers
-    QRgb *ToIntRGB();
+    virtual QRgb *ToIntRGB() = 0;
+
+    virtual void Convolution(ConvolutionTool *tool, Kernel *kernel) = 0;
+
+    virtual void NormalizeMinMax() = 0;
+
+    virtual void Mark(vector<POI> &pois, int crossSize = 3, QRgb color = qRgb(255, 255, 255)) = 0;
 
     QImage ToQImage();
 
 
-private:
+protected:
     static void ReportOperation(QString operation, ImageToProcess *itp) {
-        qDebug() << operation  << QString::fromStdString(itp->_name) << '\n';
+        qDebug() << operation << QString::fromStdString(itp->_name) << '\n';
     };
-    Canal _type;
-    int _canalsCount, _w, _h, _size;
+    int _w, _h, _size;
+    OutOfBoundPolicy *_policy;
     string _name;
-    double *_data;
 };
 
 
