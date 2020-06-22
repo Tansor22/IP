@@ -27,26 +27,6 @@ public:
     static void Filter(vector<POI> &pois, int pointsCount, int maxSize);
 
 protected:
-    static double GetCanalValueByCanalIndex(int c, QRgb color) {
-        switch (c) {
-            // r
-            case 0:
-                return ProjectHelper::NormalizeStraight(qRed(color));
-                // g
-            case 1:
-                return ProjectHelper::NormalizeStraight(qGreen(color));
-                // b
-            case 2:
-                return ProjectHelper::NormalizeStraight(qBlue(color));
-                // a
-            case 3:
-                return ProjectHelper::NormalizeStraight(qAlpha(color));
-            default:
-                qDebug() << "Incorrect canal index: " << c;
-                exit(EXIT_FAILURE);
-        }
-    }
-
     GrayImage _itp;
 };
 

@@ -18,6 +18,8 @@ public:
 
     static GrayImage * GetDerivativeY(ImageToProcess *&input);
 
+    static void GaussSeparable(ImageToProcess *&input, double sigma);
+
 
 };
 

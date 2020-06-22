@@ -64,6 +64,7 @@ public:
         ReportOperation("Creating", this);
     };
 
+    void DownSample();
 
     // assignment operator
     RgbImage &operator=(ImageToProcess *other) {

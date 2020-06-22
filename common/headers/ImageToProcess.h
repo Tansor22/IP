@@ -81,6 +81,8 @@ public:
 
     QImage ToQImage();
 
+    string GetName() { return _name; };
+
 
 protected:
     static void ReportOperation(QString operation, ImageToProcess *itp) {

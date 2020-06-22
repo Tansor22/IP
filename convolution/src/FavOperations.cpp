@@ -40,6 +40,7 @@ GrayImage *FavOperations::GetSobel(ImageToProcess *&input) {
     return sobel;
 }
 
+
 GrayImage *FavOperations::GetGradientDirection(ImageToProcess *&input) {
     GrayImage dx, dy;
 
@@ -104,4 +105,35 @@ GrayImage *FavOperations::GetDerivativeY(ImageToProcess *&input) {
             ->Apply();
     delete convolutionBuilder;
     return dy;
+}
+
+void FavOperations::GaussSeparable(ImageToProcess *&input, double sigma) {
+
+    double s = sigma * sigma * 2;
+
+    int halfSize = static_cast<int>(sigma) * 3;
+    if (halfSize % 2 == 0) {
+        ++halfSize;
+    }
+    int size = 2 * halfSize;
+    auto *kernel = new double[size];
+    int k = 0;
+
+    for (int i = -halfSize; i <= halfSize; i++, k++)
+        kernel[k] = (exp(-i * i / s) / (M_PI * s));
+
+    auto *convolutionBuilder = new ConvolutionBuilder;
+
+    convolutionBuilder
+            ->WithImage(input)
+                    // as a row
+            ->WithKernel(new Kernel(kernel, size, 1))
+            ->Apply();
+
+    convolutionBuilder
+            ->WithImage(input)
+                    // as a column
+            ->WithKernel(new Kernel(kernel, 1, size))
+            ->Apply();
+    delete convolutionBuilder;
 }

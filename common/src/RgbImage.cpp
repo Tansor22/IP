@@ -85,3 +85,31 @@ RgbImage::RgbImage(ImageToProcess *other) : ImageToProcess(*other) {
         exit(EXIT_FAILURE);
     }
 }
+
+void RgbImage::DownSample() {
+    int w = _w;
+    int h = _h;
+    _w  /= 2;
+    _h /= 2;
+    _size = _w * _h;
+
+    double *rOld = _r;
+    double *gOld = _g;
+    double *bOld = _b;
+
+    _r = new double [_size];
+    _g = new double [_size];
+    _b = new double [_size];
+
+    for (int j = 0; j < _h; j++)
+        for (int i = 0; i < _w; i++){
+            _r[j * _w + i] = rOld[j * 2 * w + i * 2];
+            _g[j * _w + i] = gOld[j * 2 * w + i * 2];
+            _b[j * _w + i] = bOld[j * 2 * w + i * 2];
+        }
+
+    delete [] rOld;
+    delete [] gOld;
+    delete [] bOld;
+
+}
