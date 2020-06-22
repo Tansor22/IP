@@ -17,39 +17,50 @@
 #include "convolution/headers/KernelsHandler.h"
 #include "convolution/headers/MirrorPolicy.h"
 #include <cmath>
+#include <demos/headers/Lab.h>
+#include <demos/headers/Lab1.h>
 
 
 int main(int argc, char *argv[]) {
     // init Qt context
     QApplication a(argc, argv);
-
-    // initialize required objects
+    // env settings
     ImagesHandler *imagesHandler = ImagesHandler::Instance();
     imagesHandler->SetImagesPath(R"(C:\Users\Sergei\Documents\CLionProjects\IP\images)");
-
+    // experiment settings
     ImageId imageId = LENA_ZOOMED;
     QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
-    //QPixmap pixmap = imagesHandler->GetImageViaFileDialog();
+    // lab
+    Lab *lab = new Lab1(pixmap, imageId);
+    lab->Go();
 
 
-    ImageToProcess *itp = new RgbImage(pixmap, imagesHandler->GetImageNameById(imageId));
-
-    auto *convolutionBuilder = new ConvolutionBuilder();
-
-    POIsFinder *poisFinder = new Harris(GrayImage::From(itp));
-    vector<POI> pois = poisFinder->FindPOIs(1, 1000);
-
-    ImageToProcess *marked = new RgbImage(itp);
-
-    //marked->Save("BEFORE_MARKED");
-
-    marked->Mark(pois, 1);
-
-    marked->Save("HARRIS_MARKED_1_1000");
-
-    DescritorBuilder descritorBuilder(GrayImage::From(itp), pois);
-
-    descritorBuilder.Build();
+    // initialize required objects
+//
+//
+//    ImageId imageId = LENA_ZOOMED;
+//    QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
+//    //QPixmap pixmap = imagesHandler->GetImageViaFileDialog();
+//
+//
+//    ImageToProcess *itp = new RgbImage(pixmap, imagesHandler->GetImageNameById(imageId));
+//
+//    auto *convolutionBuilder = new ConvolutionBuilder();
+//
+//    POIsFinder *poisFinder = new Harris(GrayImage::From(itp));
+//    vector<POI> pois = poisFinder->FindPOIs(1, 1000);
+//
+//    ImageToProcess *marked = new RgbImage(itp);
+//
+//    //marked->Save("BEFORE_MARKED");
+//
+//    marked->Mark(pois, 1);
+//
+//    marked->Save("HARRIS_MARKED_1_1000");
+//
+//    DescritorBuilder descritorBuilder(GrayImage::From(itp), pois);
+//
+//    descritorBuilder.Build();
 
 //
 //    GrayImage dx, dy;

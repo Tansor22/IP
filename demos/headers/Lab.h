@@ -7,6 +7,11 @@
 
 
 class Lab {
+public:
+    Lab() = default;
+    virtual void Go() = 0;
+
+    virtual ~Lab() = default;
 
 };
 

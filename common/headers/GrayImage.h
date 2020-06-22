@@ -58,7 +58,7 @@ public:
     };
 
     GrayImage()
-            : ImageToProcess(), _data(new double) { ReportOperation("CRATING", this);};
+            : ImageToProcess(), _data(new double) { };
 
     GrayImage(int w, int h, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy)
             : ImageToProcess(w, h, name, policy), _data(new double[_size]) {};

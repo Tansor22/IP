@@ -30,6 +30,8 @@ class ImageToProcess {
 
     friend class GrayImage;
 
+    friend class RgbImage;
+
     friend class Convolution;
 
     friend class ConvolutionBuilder;
@@ -41,6 +43,8 @@ class ImageToProcess {
     friend class Harris;
 
     friend class DescriptorBuilder;
+
+    friend class FavOperations;
 
 public:
     ImageToProcess()

@@ -67,6 +67,10 @@ public:
         return WithNormalizationFlag(true);
     };
 
+    ConvolutionBuilder *NoNormalize() {
+        return WithNormalizationFlag(false);
+    };
+
     ConvolutionBuilder *NoClip() {
         return WithClipFlag(false);
     };
