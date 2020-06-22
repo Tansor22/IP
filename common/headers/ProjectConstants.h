@@ -18,11 +18,8 @@ const ImageId BUTTERFLY = 6;
 const ImageId GIRL_N_BICYCLE = 7;
 
 const ImageId CAT_DOG = 8;
+const ImageId CAPPED_GIRL = 9;
 
-typedef unsigned int FillType;
-const FillType ZEROS = 0;
-const FillType ONES = 1;
-const FillType BORDER = 2;
 
 typedef unsigned int Canal;
 const Canal R = 1;

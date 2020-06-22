@@ -30,12 +30,12 @@ int main(int argc, char *argv[]) {
     ImagesHandler *imagesHandler = ImagesHandler::Instance();
     imagesHandler->SetImagesPath(R"(C:\Users\Sergei\Documents\CLionProjects\IP\images)");
     // experiment settings
-    ImageId imageId = LENA_ZOOMED;
+    ImageId imageId = CAPPED_GIRL;
     QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
     // lab
-   // Lab *lab = new Lab1(pixmap, imageId);
+    Lab *lab = new Lab1(pixmap, imageId);
     //Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
-    Lab *lab = new Lab3(pixmap, imageId);
+    //Lab *lab = new Lab3(pixmap, imageId);
     lab->Go();
 
 

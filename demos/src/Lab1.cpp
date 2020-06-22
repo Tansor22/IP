@@ -49,22 +49,24 @@ void Lab1::Go() {
     dx.NormalizeMinMax();
     dy.NormalizeMinMax();
 
-    dx.Save("DERIVATIVE_X");
-    dy.Save("DERIVATIVE_Y");
+    dx.Save(itp->GetName() + "_DERIVATIVE_X");
+    dy.Save(itp->GetName() + "_DERIVATIVE_Y");
 
 
-    sobel.Save("SOBEL");
+    sobel.Save(itp->GetName() + "_SOBEL");
 
     RgbImage gauss;
 
     gauss = itp;
 
+    double sigma = 1.3;
     convolutionBuilder
             ->WithImage(&gauss)
-            ->WithOperation("GAUSS_SIGMA_2,4")
+            ->WithOperation(itp->GetColorPrefix() + "_GAUSS_SIGMA_" + to_string(sigma))
             ->WithClipFlag(false)
+            ->Save()
             ->WithNormalizationFlag(false)
-            ->WithKernel(KernelsHandler::GetGauss(2.4))
+            ->WithKernel(KernelsHandler::GetGauss(sigma))
             ->Apply();
 
     delete convolutionBuilder;
