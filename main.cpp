@@ -20,6 +20,7 @@
 #include <demos/headers/Lab.h>
 #include <demos/headers/Lab1.h>
 #include <demos/headers/Lab2.h>
+#include <demos/headers/Lab3.h>
 
 
 int main(int argc, char *argv[]) {
@@ -33,7 +34,8 @@ int main(int argc, char *argv[]) {
     QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
     // lab
    // Lab *lab = new Lab1(pixmap, imageId);
-    Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
+    //Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
+    Lab *lab = new Lab3(pixmap, imageId);
     lab->Go();
 
 

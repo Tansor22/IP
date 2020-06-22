@@ -47,12 +47,12 @@ double &GrayImage::operator[](int i) {
 
 void GrayImage::Mark(vector<POI> &pois, int crossSize, QRgb color) {
     for (auto &poi : pois) {
-        operator[]((poi.x * _w + poi.y)) = qGray(color);
+        operator[]((poi.x * _w + poi.y)) = ProjectHelper::NormalizeStraight(qGray(color));
         for (int i = 1; i <= crossSize; i++) {
-            operator[](((poi.x - i) * _w + poi.y)) = qGray(color);
-            operator[](((poi.x + i) * _w + poi.y)) = qGray(color);
-            operator[]((poi.x * _w + poi.y - i)) = qGray(color);
-            operator[]((poi.x * _w + poi.y + i)) = qGray(color);
+            operator[](((poi.x - i) * _w + poi.y)) = ProjectHelper::NormalizeStraight(qGray(color));
+            operator[](((poi.x + i) * _w + poi.y)) = ProjectHelper::NormalizeStraight(qGray(color));
+            operator[]((poi.x * _w + poi.y - i)) = ProjectHelper::NormalizeStraight(qGray(color));
+            operator[]((poi.x * _w + poi.y + i)) = ProjectHelper::NormalizeStraight(qGray(color));
         }
     }
 }

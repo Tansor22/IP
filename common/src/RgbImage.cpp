@@ -42,28 +42,28 @@ double &RgbImage::operator[](int i) {
 
 void RgbImage::Mark(vector<POI> &pois, int crossSize, QRgb color) {
     for (auto &poi : pois) {
-        _policy->SetValue(_r, _w, _h, poi.x, poi.y, qRed(color));
-        _policy->SetValue(_g, _w, _h, poi.x, poi.y, qGreen(color));
-        _policy->SetValue(_b, _w, _h, poi.x, poi.y, qBlue(color));
+        _policy->SetValue(_r, _w, _h, poi.x, poi.y, ProjectHelper::NormalizeStraight(qRed(color)));
+        _policy->SetValue(_g, _w, _h, poi.x, poi.y, ProjectHelper::NormalizeStraight(qGreen(color)));
+        _policy->SetValue(_b, _w, _h, poi.x, poi.y, ProjectHelper::NormalizeStraight(qBlue(color)));
 
         for (int i = 1; i <= crossSize; i++) {
 
-            _policy->SetValue(_r, _w, _h, poi.x - i, poi.y, qRed(color));
-            _policy->SetValue(_g, _w, _h, poi.x - i, poi.y, qGreen(color));
-            _policy->SetValue(_b, _w, _h, poi.x - i, poi.y, qBlue(color));
+            _policy->SetValue(_r, _w, _h, poi.x - i, poi.y, ProjectHelper::NormalizeStraight((qRed(color))));
+            _policy->SetValue(_g, _w, _h, poi.x - i, poi.y, ProjectHelper::NormalizeStraight((qGreen(color))));
+            _policy->SetValue(_b, _w, _h, poi.x - i, poi.y, ProjectHelper::NormalizeStraight(qBlue(color)));
 
 
-            _policy->SetValue(_r, _w, _h, poi.x + i, poi.y, qRed(color));
-            _policy->SetValue(_g, _w, _h, poi.x + i, poi.y, qGreen(color));
-            _policy->SetValue(_b, _w, _h, poi.x + i, poi.y, qBlue(color));
+            _policy->SetValue(_r, _w, _h, poi.x + i, poi.y, ProjectHelper::NormalizeStraight(qRed(color)));
+            _policy->SetValue(_g, _w, _h, poi.x + i, poi.y, ProjectHelper::NormalizeStraight(qGreen(color)));
+            _policy->SetValue(_b, _w, _h, poi.x + i, poi.y, ProjectHelper::NormalizeStraight(qBlue(color)));
 
-            _policy->SetValue(_r, _w, _h, poi.x, poi.y - i, qRed(color));
-            _policy->SetValue(_g, _w, _h, poi.x, poi.y - i, qGreen(color));
-            _policy->SetValue(_b, _w, _h, poi.x, poi.y - i, qBlue(color));
+            _policy->SetValue(_r, _w, _h, poi.x, poi.y - i, ProjectHelper::NormalizeStraight(qRed(color)));
+            _policy->SetValue(_g, _w, _h, poi.x, poi.y - i, ProjectHelper::NormalizeStraight(qGreen(color)));
+            _policy->SetValue(_b, _w, _h, poi.x, poi.y - i, ProjectHelper::NormalizeStraight(qBlue(color)));
 
-            _policy->SetValue(_r, _w, _h, poi.x, poi.y + i, qRed(color));
-            _policy->SetValue(_g, _w, _h, poi.x, poi.y + i, qGreen(color));
-            _policy->SetValue(_b, _w, _h, poi.x, poi.y + i, qBlue(color));
+            _policy->SetValue(_r, _w, _h, poi.x, poi.y + i,ProjectHelper::NormalizeStraight( qRed(color)));
+            _policy->SetValue(_g, _w, _h, poi.x, poi.y + i, ProjectHelper::NormalizeStraight(qGreen(color)));
+            _policy->SetValue(_b, _w, _h, poi.x, poi.y + i, ProjectHelper::NormalizeStraight(qBlue(color)));
         }
     }
 }
