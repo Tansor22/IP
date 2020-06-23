@@ -16,6 +16,7 @@
 
 class RgbImage : public ImageToProcess {
     friend class GrayImage;
+    friend class Lab2;
 
 public:
     QRgb *ToIntRGB() override;
@@ -36,7 +37,11 @@ public:
             : ImageToProcess(), _r(new double), _g(new double), _b(new double) {};
 
     RgbImage(int w, int h, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy)
-            : ImageToProcess(w, h, name, policy), _r(new double), _g(new double), _b(new double) {};
+            : ImageToProcess(w, h, name, policy) {
+        _r = new double [_size];
+        _g = new double [_size];
+        _b = new double [_size];
+    };
 
     explicit RgbImage(const QPixmap &pixmap, const string &name = "Unnamed",
                       OutOfBoundPolicy *policy = new MirrorPolicy)

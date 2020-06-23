@@ -13,8 +13,9 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
     GrayImage smoothed, dx, dy;
     smoothed = _itp;
 
-    FavOperations::GaussSeparable(&smoothed, 1.3, true);
+    FavOperations::GaussSeparable(&smoothed, 1.3, false);
 
+   // smoothed.Save("HARRIS_GAUSS_SEP");
     dx = *FavOperations::GetDerivativeX(&_itp);
     dy = *FavOperations::GetDerivativeY(&_itp);
 

@@ -14,6 +14,7 @@ void ItpPrinter::Print(const ImageToProcess &itp) {
 void ItpPrinter::Print(const string& message, const ImageToProcess &itp) {
     if (itp._name.rfind("SAMPLE", 0) == 0) {
         qDebug() << QString::fromStdString(message) << endl;
-        //ProjectHelper::PrintAsMatrix(itp._w, itp._h, itp._data);
+        // bug
+        //ProjectHelper::PrintAsMatrix(itp._w, itp._h, ((GrayImage *&) itp)->_data);
     }
 }

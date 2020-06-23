@@ -15,6 +15,7 @@
 #include "descriptors/headers/DescritorBuilder.h"
 #include "convolution/headers/SequentialConvolutionTool.h"
 #include "convolution/headers/KernelsHandler.h"
+#include "convolution/headers/FavOperations.h"
 #include "convolution/headers/MirrorPolicy.h"
 #include <cmath>
 #include <demos/headers/Lab.h>
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
     Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
     //Lab *lab = new Lab3(pixmap, imageId);
     //Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, new Shift(-30, 0), 3, 100, 8, 16, 4);
-    //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
+   // Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
     lab->Go();
 
     // DISTORTIONS TEST

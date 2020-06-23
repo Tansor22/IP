@@ -9,11 +9,12 @@
 #include <common/headers/RgbImage.h>
 
 class Pyramid {
+    friend class Lab2;
 public:
     Pyramid() = default;
 
     Pyramid(RgbImage *itp, int nOctaves, int nLayers)
-            : _nOctaves(nOctaves), _nLayers(nLayers), _itp(itp), _sigmaEffective(0), _sigmaLocal(0) {};
+            : _nOctaves(nOctaves), _nLayers(nLayers), _itp(new RgbImage(itp)), _sigmaEffective(0), _sigmaLocal(0) {};
 
     int GetOctaves() const {
         return _nOctaves;

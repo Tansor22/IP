@@ -11,6 +11,7 @@
 using namespace std;
 
 class Octave {
+    friend class Lab2;
 public:
     Octave() = default;
 

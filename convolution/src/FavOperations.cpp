@@ -115,32 +115,44 @@ void FavOperations::GaussSeparable(ImageToProcess *input, double sigma, bool nor
     if (halfSize % 2 == 0) {
         ++halfSize;
     }
-    int size = 2 * halfSize;
-    auto *kernel = new double[size];
+    int size = 2 * halfSize + 1;
+    auto *row = new double[size];
     int k = 0;
     double sum = 1;
+
     for (int i = -halfSize; i <= halfSize; i++, k++) {
         double value = exp(-(i * i) / s) / (M_PI * s);
-        kernel[k] = value;
+        row[k] = value;
         sum += value;
     }
+
     if (normalize) {
         for (int i = 0; i < size; ++i)
-            kernel[i] /= sum;
+            row[i] /= sum;
     }
 
     auto *convolutionBuilder = new ConvolutionBuilder;
 
     convolutionBuilder
             ->WithImage(input)
-                    // as a row
-            ->WithKernel(new Kernel(kernel, size + 1, 1))
+            ->NoClip()
+                    // single row
+            ->WithKernel(new Kernel(row, size, 1))
             ->Apply();
+
+
+    auto *kernel = new double[size * size];
+
+    for (int j = 0, c = 0; j < size * size; ++j, c++) {
+        if (c == size)
+            c = 0;
+        kernel[j] = row[c];
+    }
 
     convolutionBuilder
             ->WithImage(input)
-                    // as a column
-            ->WithKernel(new Kernel(kernel, 1, size + 1))
+                    // full matrix
+            ->WithKernel(new Kernel(kernel, size, size))
             ->Apply();
     delete convolutionBuilder;
 }
