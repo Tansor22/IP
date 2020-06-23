@@ -14,9 +14,9 @@
 class Lab2 : public Lab {
 public:
     explicit Lab2(QPixmap &pixmap, ImageId imageId,
-                  int nOctaves, int nLevels, double sigmaA, double sigma0)
+                  int nOctaves, int nLevels, double sigmaA, double sigma0, double  sigmaL)
             : Lab(), _pixmap(pixmap), _imageId(imageId), _nOctaves(nOctaves), _nLevels(nLevels),
-              _sigmaA(sigmaA), _sigma0(sigma0) {};
+              _sigmaA(sigmaA), _sigma0(sigma0), _sigmaL(sigmaL) {};
 
     void Go() override;
 
@@ -29,7 +29,7 @@ private:
     QPixmap _pixmap;
     ImageId _imageId;
     int _nOctaves, _nLevels;
-    double _sigmaA, _sigma0;
+    double _sigmaA, _sigma0, _sigmaL;
 };
 
 

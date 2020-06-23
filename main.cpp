@@ -46,10 +46,10 @@ int main(int argc, char *argv[]) {
 
     // lab
     //Lab *lab = new Lab1(pixmap, imageId);
-    Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
+    Lab *lab = new Lab2(pixmap, imageId, 6, 5, 0, 1, 7.13);
     //Lab *lab = new Lab3(pixmap, imageId);
     //Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, new Shift(-30, 0), 3, 100, 8, 16, 4);
-   // Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
+    //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
     lab->Go();
 
     // DISTORTIONS TEST

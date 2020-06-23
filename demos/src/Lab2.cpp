@@ -74,7 +74,7 @@ void Lab2::Go() {
         }
     }
     // L(x,y,sigma)
-    RgbImage *imgL = L(pyramid, _sigma0);
+    RgbImage *imgL = L(pyramid, _sigmaL);
     imgL->Save("L");
 }
 
@@ -108,9 +108,9 @@ RgbImage *Lab2::L(vector<Octave *> pyramid, double sigma) {
             if (j_n >= targetLayer->_itp->_w) j_n = targetLayer->_itp->_w - 1;
             if (i_n >= targetLayer->_itp->_h) i_n = targetLayer->_itp->_h - 1;
 
-            output->_r[i * output->_w + j] = targetLayer->_itp->_r[i_n * output->_w + j_n];
-            output->_g[i * output->_w + j] = targetLayer->_itp->_g[i_n * output->_w + j_n];
-            output->_b[i * output->_w + j] = targetLayer->_itp->_b[i_n * output->_w + j_n];
+            output->_r[i * output->_w + j] = targetLayer->_itp->_r[i_n * targetLayer->_itp->_w + j_n];
+            output->_g[i * output->_w + j] = targetLayer->_itp->_g[i_n * targetLayer->_itp->_w + j_n];
+            output->_b[i * output->_w + j] = targetLayer->_itp->_b[i_n * targetLayer->_itp->_w + j_n];
         }
     //output->Save("L");
     return output;
