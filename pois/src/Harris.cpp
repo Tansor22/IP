@@ -5,41 +5,20 @@
 #include "pois/headers/Harris.h"
 #include "convolution/headers/ConvolutionBuilder.h"
 #include "convolution/headers/KernelsHandler.h"
+#include "convolution/headers/FavOperations.h"
 
 vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
     int w = _itp._w;
     int h = _itp._h;
     GrayImage smoothed, dx, dy;
-    smoothed = dx = dy = _itp;
+    smoothed = _itp;
 
-    auto *convolutionBuilder = new ConvolutionBuilder;
+    FavOperations::GaussSeparable(&smoothed, 1.3, true);
 
-    convolutionBuilder
-            ->WithImage(&smoothed)
-            ->WithKernel(KernelsHandler::GetGauss(2.5))
-            ->WithOperation("GAUSS_BLUR_SIGMA_1,5")
-           // ->Save()
-            ->NoClip()
-            ->Apply();
-
-    convolutionBuilder
-            ->WithImage(&dx)
-            ->WithKernel(KernelsHandler::GetSobelX())
-            ->WithOperation("DERIVATIVE_X")
-            ->Normalize()
-            //->Save()
-            ->NoClip()
-            ->Apply();
+    dx = *FavOperations::GetDerivativeX(&_itp);
+    dy = *FavOperations::GetDerivativeY(&_itp);
 
 
-    convolutionBuilder
-            ->WithImage(&dy)
-            ->WithKernel(KernelsHandler::GetSobelY())
-            ->WithOperation("DERIVATIVE_Y")
-            //->Save()
-            ->Apply();
-
-    delete convolutionBuilder;
     QVector<QVector<double>> a,b,c;
 
 

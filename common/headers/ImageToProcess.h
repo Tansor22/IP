@@ -51,23 +51,26 @@ class ImageToProcess {
 
 public:
     ImageToProcess()
-            : _name("Unnamed"), _w(0), _h(0), _size(0), _policy(new MirrorPolicy) {
+            : _name("Unnamed"), _w(0), _h(0), _size(0), _policy(new MirrorPolicy), _secondName(string()) {
     };
 
     ImageToProcess(ImageToProcess const &other)
-            : _name(other._name), _w(other._w), _h(other._h), _size(other._size), _policy(other._policy) {
+            : _name(other._name), _w(other._w), _h(other._h), _size(other._size), _policy(other._policy), _secondName(string()) {
     };
 
     ImageToProcess(const QPixmap &pixmap, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy) :
-            _name(name), _w(pixmap.width()), _h(pixmap.height()), _size(_w * _h), _policy(policy) {};
+            _name(name), _w(pixmap.width()), _h(pixmap.height()), _size(_w * _h), _policy(policy), _secondName(string()) {};
 
     ImageToProcess(int w, int h, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy) :
-            _name(name), _w(w), _h(h), _size(_w * _h), _policy(policy) {};
+            _name(name), _w(w), _h(h), _size(_w * _h), _policy(policy), _secondName(string()) {};
 
     virtual string GetColorPrefix() = 0;
 
     virtual double &operator[](int i) = 0;
 
+    virtual void SetSecondName(string const &name) {
+        _secondName = name;
+    };
     // savers
     void Save(string fileName = string(), const string &format = "JPG");
 
@@ -91,11 +94,11 @@ public:
 
 protected:
     static void ReportOperation(QString operation, ImageToProcess *itp) {
-        qDebug() << operation << QString::fromStdString(itp->_name) << '\n';
+        qDebug() << operation << QString::fromStdString(itp->_name + "_" + (itp->_secondName.empty() ? " " : itp->_secondName))  << '\n';
     };
     int _w, _h, _size;
     OutOfBoundPolicy *_policy;
-    string _name;
+    string _name, _secondName;
 };
 
 

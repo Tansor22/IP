@@ -31,9 +31,9 @@ void Lab4::Go() {
 //    }
     // Distortion *distortion = new Shift(40, 0);
     // factor 0.1 .. 2.00
-    Distortion *distortion = new Contrast(0.6);
+    //Distortion *distortion = new Contrast(0.6);
 
-    auto *distorted = new GrayImage(distortion->Distort(_distorted),
+    auto *distorted = new GrayImage(_distortion->Distort(_distorted),
                                     ImagesHandler::Instance()->GetImageNameById(_distortedId));
 
     poisFinder = new Harris(distorted);
@@ -54,7 +54,7 @@ void Lab4::Go() {
 
     joined.save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
                 +
-                QString::fromStdString(itp->GetName() + "_JOIN_" + distorted->GetName() + "_" + distortion->GetName()) +
+                QString::fromStdString(itp->GetName() + "_JOIN_" + distorted->GetName() + "_" + _distortion->GetName()) +
                 ".JPG", "JPG");
 
 }

@@ -23,8 +23,11 @@ QImage ImageToProcess::ToQImage() {
 void ImageToProcess::Save(string fileName, const string &format) {
     fileName = GetColorPrefix() += fileName;
     if (fileName.empty()) {
-        fileName = "IMAGE_";
+        fileName += "IMAGE_";
         fileName += _name;
+    }
+    if (!_secondName.empty()) {
+        fileName += _secondName;
     }
     string nameBuf = _name;
     fileName += ".";

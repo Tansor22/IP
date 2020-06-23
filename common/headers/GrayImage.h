@@ -64,7 +64,7 @@ public:
 
     GrayImage(int w, int h, const string &name = "Unnamed", OutOfBoundPolicy *policy = new MirrorPolicy)
             : ImageToProcess(w, h, name, policy), _data(new double[_size]) {
-        for (int i = 0; i < _size; ++i) _data[i] = 1.0;
+        for (int i = 0; i < _size; ++i) _data[i] = .0;
     };
 
     explicit GrayImage(GrayImage *&other)

@@ -65,14 +65,14 @@ GrayImage *FavOperations::GetGradientDirection(ImageToProcess *&input) {
     auto *dir = new GrayImage(input->_w, input->_h);
 
     for (int i = 0; i < input->_size; ++i)
-        (*dir)[i] = atan2(dx[i], dy[i]) * 180 / M_PI + 180;
+        (*dir)[i] = atan2(dy[i], dx[i]) * 180 / M_PI + 180;
 
     dir->NormalizeMinMax();
     delete convolutionBuilder;
     return dir;
 }
 
-GrayImage *FavOperations::GetDerivativeX(ImageToProcess *&input) {
+GrayImage *FavOperations::GetDerivativeX(ImageToProcess *input) {
     GrayImage *dx = GrayImage::From(input);
 
     auto *convolutionBuilder = new ConvolutionBuilder;
@@ -90,7 +90,7 @@ GrayImage *FavOperations::GetDerivativeX(ImageToProcess *&input) {
     return dx;
 }
 
-GrayImage *FavOperations::GetDerivativeY(ImageToProcess *&input) {
+GrayImage *FavOperations::GetDerivativeY(ImageToProcess *input) {
     GrayImage *dy = GrayImage::From(input);
 
     auto *convolutionBuilder = new ConvolutionBuilder;
@@ -107,7 +107,7 @@ GrayImage *FavOperations::GetDerivativeY(ImageToProcess *&input) {
     return dy;
 }
 
-void FavOperations::GaussSeparable(ImageToProcess *&input, double sigma) {
+void FavOperations::GaussSeparable(ImageToProcess *input, double sigma, bool normalize) {
 
     double s = sigma * sigma * 2;
 
@@ -118,22 +118,29 @@ void FavOperations::GaussSeparable(ImageToProcess *&input, double sigma) {
     int size = 2 * halfSize;
     auto *kernel = new double[size];
     int k = 0;
-
-    for (int i = -halfSize; i <= halfSize; i++, k++)
-        kernel[k] = (exp(-i * i / s) / (M_PI * s));
+    double sum = 1;
+    for (int i = -halfSize; i <= halfSize; i++, k++) {
+        double value = exp(-(i * i) / s) / (M_PI * s);
+        kernel[k] = value;
+        sum += value;
+    }
+    if (normalize) {
+        for (int i = 0; i < size; ++i)
+            kernel[i] /= sum;
+    }
 
     auto *convolutionBuilder = new ConvolutionBuilder;
 
     convolutionBuilder
             ->WithImage(input)
                     // as a row
-            ->WithKernel(new Kernel(kernel, size, 1))
+            ->WithKernel(new Kernel(kernel, size + 1, 1))
             ->Apply();
 
     convolutionBuilder
             ->WithImage(input)
                     // as a column
-            ->WithKernel(new Kernel(kernel, 1, size))
+            ->WithKernel(new Kernel(kernel, 1, size + 1))
             ->Apply();
     delete convolutionBuilder;
 }

@@ -19,7 +19,7 @@ vector<Descriptor> DescritorBuilder::Build() {
 
     vector<POI> orientedPois = GetOrientedPOIs(gradientDirection, sobel);
 
-    //gradientDirection->Save("gradientDirection DESc");
+    //gradientDirection->Save();
 
     // descriptors start
     double basketSize = 360. / _basketsCount;
@@ -52,7 +52,7 @@ vector<Descriptor> DescritorBuilder::Build() {
 
 
                 double currMagnitude = (*sobel)[(x + ih) * sobel->_w + y + jh];
-                double currDirection = (*gradientDirection)[(x + ih) * sobel->_w + y + jh] - angle;
+                double currDirection = (*gradientDirection)[(x + ih) * gradientDirection->_w + y + jh] - angle;
 
                 // circle
                 currDirection = (currDirection < 0) ? currDirection + 360 : currDirection;
@@ -106,7 +106,7 @@ vector<POI> DescritorBuilder::GetOrientedPOIs(GrayImage *direction, GrayImage *m
     double localBasketSize = 360.0 / localBasketCount;
     int descriptorRadius = _descriptorSize / 2 * _histGridSize;
 
-    Kernel *gaussKernel = KernelsHandler::GetGauss(descriptorRadius / 6, descriptorRadius);
+    Kernel *gaussKernel = KernelsHandler::GetGauss(descriptorRadius / 6, descriptorRadius, false);
 
     //gaussKernel->Print(6);
     for (auto &poi : _pois) {
@@ -194,7 +194,7 @@ QImage DescritorBuilder::Join(GrayImage *itp, const vector<Descriptor> &otherDes
 
     QImage canvas = joined->ToQImage();
     QPainter painter(&canvas);
-    painter.setPen(QColor(255, 255, 255, 200));
+    //painter.setPen(QColor(255, 255, 255, 200));
 
 
     vector<int> founds;
@@ -212,7 +212,6 @@ QImage DescritorBuilder::Join(GrayImage *itp, const vector<Descriptor> &otherDes
             double dist = i.Distance(j);
             distRow.push_back(dist);
             modVector.push_back(dist);
-            //avgValue += dist;
 
             if (dist < minValue) {
                 minValue = dist;

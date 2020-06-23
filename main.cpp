@@ -19,11 +19,15 @@
 #include <cmath>
 #include <demos/headers/Lab.h>
 #include <demos/headers/Lab1.h>
+#include <distortions/headers/Distortion.h>
 #include <distortions/headers/Contrast.h>
+#include <distortions/headers/Shift.h>
+#include <distortions/headers/Scale.h>
 #include <demos/headers/Lab2.h>
 #include <demos/headers/Lab3.h>
 #include <demos/headers/Lab4.h>
 #include <demos/headers/Lab5.h>
+#include <distortions/headers/Rotate.h>
 
 
 int main(int argc, char *argv[]) {
@@ -35,22 +39,24 @@ int main(int argc, char *argv[]) {
     // experiment settings
     ImageId imageId = LENA_ZOOMED;
     QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
+
     ImageId distortedImageId = LENA_ZOOMED;
     QPixmap distortedPixmap = imagesHandler->GetImageByImageId(distortedImageId);
 
     // lab
     //Lab *lab = new Lab1(pixmap, imageId);
-    //Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
+    Lab *lab = new Lab2(pixmap, imageId, 3, 3, 0, 2);
     //Lab *lab = new Lab3(pixmap, imageId);
-    Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, 3,100,8,16,4);
-    //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, 3,100,8,16,4);
+    //Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, new Shift(-30, 0), 3, 100, 8, 16, 4);
+    //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
     lab->Go();
 
-    //    Contrast c = Contrast(0.6);
-//    c.Distort(pixmap).toImage().save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
-//                                     +
-//                                     QString::fromStdString("CONTRAST_TEST") +
-//                                     ".JPG", "JPG");
+    // DISTORTIONS TEST
+    /* Distortion *c = new Scale(0.4);
+ c->Distort(pixmap).toImage().save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
+                                  +
+                                  QString::fromStdString("SCALE_TEST") +
+                                  ".JPG", "JPG");*/
 
     // initialize required objects
 //

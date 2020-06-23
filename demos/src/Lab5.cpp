@@ -14,29 +14,33 @@
 #include <QPainter>
 
 void Lab5::Go() {
-    auto *itp = new GrayImage(_pixmap,
+    GrayImage itp = GrayImage(_pixmap,
                               ImagesHandler::Instance()->GetImageNameById(_imageId));
 
-    //POIsFinder *poisFinder = new Harris(GrayImage::From(reinterpret_cast<ImageToProcess *&>(itp)));
-    POIsFinder *poisFinder = new Harris(itp);
+    //poisFinder = new Harris(GrayImage::From(reinterpret_cast<ImageToProcess *&>(itp)));
+    POIsFinder *poisFinder = new Harris(&itp);
     vector<POI> pois = poisFinder->FindPOIs(_windowSize, _pointsCount);
 
-    DescritorBuilder descritorBuilder1(GrayImage::From(reinterpret_cast<ImageToProcess *&>(itp)), pois);
+    DescritorBuilder descritorBuilder1(&itp, pois);
 
     vector<Descriptor> imageDescriptor1 = descritorBuilder1.Build();
 
-//    for (auto& descriptor : imageDescriptor) {
+//    for (auto& descriptor : imageDescriptor1) {
 //        descriptor.Print();
 //    }
-    Distortion *distortion = new Rotate(90);
-    auto *distorted = new GrayImage(distortion->Distort(_distorted),
+
+    _distortion->Distort(_distorted).save(ImagesHandler::Instance()->GetImagesPath() + "/output/TES.JPG", "JPG");
+    GrayImage distorted = GrayImage(_distortion->Distort(_distorted),
                                     ImagesHandler::Instance()->GetImageNameById(_distortedId));
 
-    poisFinder = new Harris(distorted);
+    distorted.SetSecondName(_distortion->GetName());
+    //distorted->Save();
+
+    poisFinder = new Harris(&distorted);
 
     vector<POI> poisDistorted = poisFinder->FindPOIs(_windowSize, _pointsCount);
 
-    DescritorBuilder descritorBuilderDistorted(GrayImage::From(reinterpret_cast<ImageToProcess *&>(distorted)),
+    DescritorBuilder descritorBuilderDistorted(&distorted,
                                                poisDistorted);
 
     vector<Descriptor> imageDescriptorDistorted = descritorBuilderDistorted.Build();
@@ -46,9 +50,11 @@ void Lab5::Go() {
 //    }
 
 
-    QImage joined = descritorBuilder1.Join(distorted, imageDescriptorDistorted);
+    QImage joined = descritorBuilder1.Join(&distorted, imageDescriptorDistorted);
 
     joined.save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
-                + QString::fromStdString(itp->GetName() + "_JOIN_" + distorted->GetName() + "_" + distortion->GetName()) + ".JPG", "JPG");
+                +
+                QString::fromStdString(itp.GetName() + "_JOIN_" + distorted.GetName() + "_" + _distortion->GetName()) +
+                ".JPG", "JPG");
 
 }

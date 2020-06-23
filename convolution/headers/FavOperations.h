@@ -14,11 +14,11 @@ public:
 
     static GrayImage * GetGradientDirection(ImageToProcess *&input);
 
-    static GrayImage * GetDerivativeX(ImageToProcess *&input);
+    static GrayImage * GetDerivativeX(ImageToProcess *input);
 
-    static GrayImage * GetDerivativeY(ImageToProcess *&input);
+    static GrayImage * GetDerivativeY(ImageToProcess *input);
 
-    static void GaussSeparable(ImageToProcess *&input, double sigma);
+    static void GaussSeparable(ImageToProcess *input, double sigma, bool normalize = false);
 
 
 };

@@ -18,7 +18,7 @@ public:
 
     static Kernel *GetGauss(double sigma);
 
-    static Kernel *GetGauss(double sigma, int radius);
+    static Kernel *GetGauss(double sigma, int radius, bool normalize = false);
 };
 
 

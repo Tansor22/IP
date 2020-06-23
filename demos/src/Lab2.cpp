@@ -21,7 +21,7 @@ void Lab2::Go() {
     auto *itp = new RgbImage(_pixmap, ImagesHandler::Instance()->GetImageNameById(_imageId));
 
     // blur it a bit
-    FavOperations::GaussSeparable(reinterpret_cast<ImageToProcess *&>(itp), sigmaB);
+    FavOperations::GaussSeparable(reinterpret_cast<ImageToProcess *&>(itp), sigmaB, false);
 
 
     double sigma[_nLevels - 1];
@@ -46,7 +46,7 @@ void Lab2::Go() {
         oneOctave->push_back(currentLayer);
 
         for (int j = 1; j < _nLevels; j++) {
-            FavOperations::GaussSeparable(reinterpret_cast<ImageToProcess *&>(itp), sigma[j - 1]);
+            FavOperations::GaussSeparable(reinterpret_cast<ImageToProcess *&>(itp), sigma[j - 1], false);
             sigmaLocal *= k;
             sigmaEff *= k;
             currentLayer = new Pyramid(itp, i, j);
