@@ -1,19 +1,20 @@
 //
-// Created by Sergei on 22.06.2020.
+// Created by Sergei on 23.06.2020.
 //
 
+#include "demos/headers/Lab4.h"
 #include <common/headers/RgbImage.h>
 #include <common/headers/ImagesHandler.h>
 #include <pois/headers/POIsFinder.h>
 #include <pois/headers/Harris.h>
 #include <descriptors/headers/DescritorBuilder.h>
-#include "demos/headers/Lab5.h"
 #include "distortions/headers/Distortion.h"
-#include "distortions/headers/Rotate.h"
+#include "distortions/headers/Shift.h"
+#include "distortions/headers/Contrast.h"
 #include <QDebug>
 #include <QPainter>
 
-void Lab5::Go() {
+void Lab4::Go() {
     auto *itp = new GrayImage(_pixmap,
                               ImagesHandler::Instance()->GetImageNameById(_imageId));
 
@@ -28,7 +29,10 @@ void Lab5::Go() {
 //    for (auto& descriptor : imageDescriptor) {
 //        descriptor.Print();
 //    }
-    Distortion *distortion = new Rotate(90);
+    // Distortion *distortion = new Shift(40, 0);
+    // factor 0.1 .. 2.00
+    Distortion *distortion = new Contrast(0.6);
+
     auto *distorted = new GrayImage(distortion->Distort(_distorted),
                                     ImagesHandler::Instance()->GetImageNameById(_distortedId));
 
@@ -49,6 +53,8 @@ void Lab5::Go() {
     QImage joined = descritorBuilder1.Join(distorted, imageDescriptorDistorted);
 
     joined.save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
-                + QString::fromStdString(itp->GetName() + "_JOIN_" + distorted->GetName() + "_" + distortion->GetName()) + ".JPG", "JPG");
+                +
+                QString::fromStdString(itp->GetName() + "_JOIN_" + distorted->GetName() + "_" + distortion->GetName()) +
+                ".JPG", "JPG");
 
 }

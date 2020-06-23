@@ -20,7 +20,9 @@ public:
     void Go() override;
 
     ~Lab2() override = default;
+
     static string WithPrecision(double value, int precision);
+
 private:
 
     QPixmap _pixmap;

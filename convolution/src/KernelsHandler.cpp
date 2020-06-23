@@ -51,3 +51,27 @@ Kernel *KernelsHandler::GetGauss(double sigma) {
             matrix_gauss[(x + halfSize) * size + y + halfSize] /= test_sum;
     return new Kernel(matrix_gauss, size, size);
 }
+
+Kernel *KernelsHandler::GetGauss(double sigma, int radius) {
+    double coeff = 1 / (2 * M_PI * sigma * sigma);
+    double divider = 2 * sigma * sigma;
+    double sum = 0;
+    // -radius .. 0 .. radius
+    // 2 radius + point at 0, so + 1
+    int w = (2 * radius) + 1;
+    int h = (2 * radius) + 1;
+    auto *matrix_gauss = new double[w * h];
+    int k = 0;
+    for (int u = -radius; u <= radius; u++) {
+        //qDebug() << "U :" << u << ' ';
+        for (int v = -radius; v <= radius; v++) {
+            double gaussValue = coeff * exp(-(u * u + v * v) / divider);
+            matrix_gauss[k++] = gaussValue;
+            sum += gaussValue;
+
+        }
+        //qDebug() << "Size gauss::" << k << endl;
+        //qDebug() << "radius gauss::" << radius << endl;
+    }
+    return new Kernel(matrix_gauss, w, h);
+}

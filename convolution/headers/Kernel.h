@@ -6,6 +6,7 @@
 #define IP_KERNEL_H
 
 #include <algorithm>
+#include <common/headers/ProjectHelper.h>
 #include <QDebug>
 
 using namespace std;
@@ -15,12 +16,15 @@ class Kernel {
 
     // todo inheritance and friend class
     friend class GrayImage;
+
     friend class RgbImage;
 
+    friend class DescritorBuilder;
+
 public:
-    Kernel(double *data, int w, int h) : _data(nullptr), _w(w), _h(h) {
-        _data = new double [_w * _h];
-        std::copy(data, data + _w * _h, _data);
+    Kernel(double *data, int w, int h) : _data(data), _w(w), _h(h) {
+//        _data = new double [_w * _h];
+//        std::copy(data, data + _w * _h, _data);
     }
 
     Kernel() : _data(nullptr), _w(0), _h(0) {}
@@ -28,12 +32,16 @@ public:
     ~Kernel() { delete _data; }
 
     double &operator[](int i) {
-        if (i < 0 || i < _w * _h) {
+        if (i < 0 || i >= _w * _h) {
             qDebug() << "Kernel out of bound index " << i << endl;
             exit(EXIT_FAILURE);
         }
         return _data[i];
     };
+
+    void Print(int precision = 4) {
+        ProjectHelper::PrintAsMatrix(_w, _h, _data, precision);
+    }
 
 private:
     double *_data;

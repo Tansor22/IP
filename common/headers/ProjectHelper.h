@@ -29,9 +29,19 @@ public:
     static void NormalizeMinMax(Canal type, double *data, int size);
 
     static void NormalizeMinMax(double *data, int size);
+
+    static string WithPrecision(double value, int precision);
+
     static double *toGray(double *r, double *g, double *b, int size);
 
-    static void PrintAsMatrix(int w, int h, double *data);
+    static QRgb SupplyWithRgb() {
+        int r = (rand() % 256);
+        int g = (rand() % 256);
+        int b = (rand() % 256);
+        return qRgb(r, g, b);
+    }
+
+    static void PrintAsMatrix(int w, int h, double *data, int precision = 4);
 };
 
 

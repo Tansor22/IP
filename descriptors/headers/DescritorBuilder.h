@@ -14,16 +14,20 @@ using namespace std;
 
 class DescritorBuilder {
 public:
-    DescritorBuilder(GrayImage *itp, vector<POI> &pois, int basketsCount = 8,
+    DescritorBuilder(ImageToProcess *itp, vector<POI> &pois, int basketsCount = 8,
                      int histGridSize = 16, int descriptorSize = 4)
-            : _pois(pois), _itp(GrayImage(itp)), _basketsCount(basketsCount),
+            : _pois(pois), _itp(itp), _basketsCount(basketsCount),
               _histGridSize(histGridSize), _descriptorSize(descriptorSize) {}
 
-    void Build();
+    vector<Descriptor> Build();
+
+    vector<POI> GetOrientedPOIs(GrayImage *direction, GrayImage *magnitude);
+
+    QImage Join(GrayImage *itp, const vector<Descriptor> &otherDescriptor);
 
 private:
     vector<POI> _pois;
-    GrayImage _itp;
+    ImageToProcess *_itp;
     int _basketsCount, _histGridSize, _descriptorSize;
     vector<Descriptor> _imageDescriptor;
 };

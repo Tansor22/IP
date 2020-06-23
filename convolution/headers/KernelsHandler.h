@@ -17,6 +17,8 @@ public:
     static Kernel *GetIncreaseSharpness();
 
     static Kernel *GetGauss(double sigma);
+
+    static Kernel *GetGauss(double sigma, int radius);
 };
 
 

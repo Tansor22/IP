@@ -56,3 +56,18 @@ void GrayImage::Mark(vector<POI> &pois, int crossSize, QRgb color) {
         }
     }
 }
+
+GrayImage *GrayImage::Join(GrayImage *one, GrayImage *other) {
+    auto *output
+            = new GrayImage(one->_w + other->_w, max(one->_h, other->_h), "JOINED_" + one->_name + "_" + other->_name);
+
+    for (int i = 0; i < one->_h; ++i)
+        for (int j = 0; j < one->_w; ++j)
+            (*output)[i * output->_w + j] = (*one)[i * one->_w + j];
+
+    for (int i = 0; i < other->_h; ++i)
+        for (int j = 0; j < other->_w; ++j)
+            // first x calculating, then shifting
+            (*output)[i * output->_w + j + one->_w] = (*other)[i * other->_w + j];
+    return output;
+}

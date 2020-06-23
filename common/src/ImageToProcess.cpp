@@ -6,6 +6,7 @@
 #include "convolution/headers/KernelsHandler.h"
 #include "../headers/ImageToProcess.h"
 #include "../headers/ItpPrinter.h"
+#include "QPainter"
 
 
 QImage ImageToProcess::ToQImage() {
@@ -38,6 +39,15 @@ void ImageToProcess::Save(string fileName, const string &format) {
 
 void ImageToProcess::Save(ImageId imageId, const string &format) {
     Save(ImagesHandler::Instance()->GetImageNameById(imageId), format);
+}
+
+QImage ImageToProcess::Join(ImageToProcess &other) {
+    QPixmap px(_w + other._w, max(_h, other._h));
+    QPainter p(&px);
+    p.drawImage(0, 0, ToQImage());
+    p.drawImage(_w + 10, 0, other.ToQImage());
+    // copy
+    return QImage(px.toImage());
 }
 
 //ImageToProcess::ImageToProcess(const ImageToProcess &other) {

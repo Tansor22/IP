@@ -25,6 +25,7 @@ public:
 
     int x, y;
     double c;
+    double angle;
 };
 
 

@@ -46,6 +46,9 @@ class ImageToProcess {
 
     friend class FavOperations;
 
+    friend class DescritorBuilder;
+
+
 public:
     ImageToProcess()
             : _name("Unnamed"), _w(0), _h(0), _size(0), _policy(new MirrorPolicy) {
@@ -69,6 +72,8 @@ public:
     void Save(string fileName = string(), const string &format = "JPG");
 
     void Save(ImageId imageId, const string &format = "JPG");
+
+    QImage Join(ImageToProcess &other);
 
     // mappers
     virtual QRgb *ToIntRGB() = 0;

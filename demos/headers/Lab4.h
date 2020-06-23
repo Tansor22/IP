@@ -1,18 +1,18 @@
 //
-// Created by Sergei on 22.06.2020.
+// Created by Sergei on 23.06.2020.
 //
 
-#ifndef IP_LAB5_H
-#define IP_LAB5_H
+#ifndef IP_LAB4_H
+#define IP_LAB4_H
 
 
-#include <QtGui/QPixmap>
 #include <common/headers/ProjectConstants.h>
 #include "Lab.h"
+#include "QPixmap"
 
-class Lab5 : public Lab {
+class Lab4 : public Lab {
 public:
-    explicit Lab5(QPixmap &pixmap, QPixmap &distorted, ImageId imageId, ImageId distortedId, int windowSize,
+    explicit Lab4(QPixmap &pixmap, QPixmap &distorted, ImageId imageId, ImageId distortedId, int windowSize,
                   int pointsCount,
                   int basketsCount, int histSize, int descriptorSize)
             : Lab(), _pixmap(pixmap), _distorted(distorted), _imageId(imageId), _distortedId(distortedId),
@@ -23,13 +23,14 @@ public:
 
     void Go() override;
 
-    ~Lab5() override = default;
+    ~Lab4() override = default;
 
 private:
     QPixmap _pixmap, _distorted;
     ImageId _imageId, _distortedId;
     int _windowSize, _pointsCount, _basketsCount, _histSize, _descriptorSize;
+
 };
 
 
-#endif //IP_LAB5_H
+#endif //IP_LAB4_H

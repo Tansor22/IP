@@ -16,8 +16,8 @@ vector<POI> Harris::FindPOIs(int windowSize, int pointsCount) {
 
     convolutionBuilder
             ->WithImage(&smoothed)
-            ->WithKernel(KernelsHandler::GetGauss(1.3))
-            ->WithOperation("GAUSS_BLUR_SIGMA_1,3")
+            ->WithKernel(KernelsHandler::GetGauss(2.5))
+            ->WithOperation("GAUSS_BLUR_SIGMA_1,5")
            // ->Save()
             ->NoClip()
             ->Apply();

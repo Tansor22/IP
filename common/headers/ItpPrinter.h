@@ -8,6 +8,9 @@
 #include <string>
 #include "ImageToProcess.fwd.h"
 #include "ItpPrinter.fwd.h"
+#include "ImageToProcess.h"
+#include "QPainter"
+
 
 using namespace std;
 

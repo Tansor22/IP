@@ -4,11 +4,15 @@
 
 #include "../headers/ProjectHelper.h"
 
-void ProjectHelper::PrintAsMatrix(int w, int h, double *data) {
+inline string ProjectHelper::WithPrecision(double value, int precision) {
+    return to_string(value).substr(0, to_string(value).find('.') + precision + 1);
+}
+
+void ProjectHelper::PrintAsMatrix(int w, int h, double *data, int precision) {
     string str;
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
-            str += std::to_string(data[i * w + j]) + " ";
+            str += WithPrecision(data[i * w + j], precision) + " ";
 
         }
         str += "\t\n";
@@ -142,8 +146,8 @@ double *ProjectHelper::toGray(double *r, double *g, double *b, int size) {
     for (int i = 0; i < size; ++i)
         output[i] = NormalizeStraight(
                 qGray(NormalizeReverse(r[i]),
-                     NormalizeReverse(g[i]),
-                     NormalizeReverse(b[i]))
+                      NormalizeReverse(g[i]),
+                      NormalizeReverse(b[i]))
         );
     return output;
 }
