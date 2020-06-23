@@ -75,7 +75,7 @@ void Lab2::Go() {
     }
     // L(x,y,sigma)
     RgbImage *imgL = L(pyramid, _sigma0);
-    //imgL->Save("L");
+    imgL->Save("L");
 }
 
 inline string Lab2::WithPrecision(double value, int precision) {
@@ -112,6 +112,6 @@ RgbImage *Lab2::L(vector<Octave *> pyramid, double sigma) {
             output->_g[i * output->_w + j] = targetLayer->_itp->_g[i_n * output->_w + j_n];
             output->_b[i * output->_w + j] = targetLayer->_itp->_b[i_n * output->_w + j_n];
         }
-    output->Save("L");
+    //output->Save("L");
     return output;
 }
