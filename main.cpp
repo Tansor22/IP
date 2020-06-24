@@ -38,26 +38,43 @@ int main(int argc, char *argv[]) {
     ImagesHandler *imagesHandler = ImagesHandler::Instance();
     imagesHandler->SetImagesPath(R"(C:\Users\Sergei\Documents\CLionProjects\IP\images)");
     // experiment settings
-    ImageId imageId = LENA_ZOOMED;
-    QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
+    ImageId imageId1 = CAPPED_GIRL;
+    ImageId imageId2 = BUTTERFLY;
+    ImageId imageId3 = GIRL_N_BICYCLE;
+    ImageId imageId4 = LENA_ZOOMED;
+    ImageId images[] = {imageId1, imageId2, imageId3, imageId4};
+    int degrees[] = {45, 90, 180, 35};
+    // QPixmap pixmap = imagesHandler->GetImageByImageId(imageId);
 
-    ImageId distortedImageId = LENA_ZOOMED;
+    ImageId distortedImageId = CAT_DOG;
     QPixmap distortedPixmap = imagesHandler->GetImageByImageId(distortedImageId);
-
+    // g.Save("fdf");
     // lab
-    //Lab *lab = new Lab1(pixmap, imageId);
-    Lab *lab = new Lab2(pixmap, imageId, 6, 5, 0, 1, 7.13);
-    //Lab *lab = new Lab3(pixmap, imageId);
-    //Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, new Shift(-30, 0), 3, 100, 8, 16, 4);
-    //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
-    lab->Go();
+    for (int i = 0; i < 4; ++i) {
+        QPixmap pixmap = imagesHandler->GetImageByImageId(images[i]);
+        Lab *lab = new Lab2(pixmap, images[i], 5, 2, 0, 1, 7.13);
+        //Lab *lab = new Lab1(pixmap, imageId);
 
+
+        //Lab *lab = new Lab3(pixmap, imageId);
+        //Lab *lab = new Lab4(pixmap, distortedPixmap, imageId, distortedImageId, new Shift(-30, 0), 3, 100, 8, 16, 4);
+        //Lab *lab = new Lab5(pixmap, distortedPixmap, imageId, distortedImageId, new Rotate(27), 3, 200, 8, 16, 4);
+        lab->Go();
+    }
     // DISTORTIONS TEST
-    /* Distortion *c = new Scale(0.4);
- c->Distort(pixmap).toImage().save(ImagesHandler::Instance()->GetImagesPath() + "/output/"
-                                  +
-                                  QString::fromStdString("SCALE_TEST") +
-                                  ".JPG", "JPG");*/
+//    for (int i = 0; i < 4; ++i) {
+//        for (int j = 0; j < 4; ++j) {
+//            Distortion *c = new Rotate(degrees[j]);
+//            c->Distort(imagesHandler->GetImageByImageId(images[i])).toImage().save(
+//                    ImagesHandler::Instance()->GetImagesPath() + "/output/"
+//                    +
+//                    "GRAY_" + QString::fromStdString(imagesHandler->GetImageNameById(images[i]))
+//                    + "_"
+//                    + QString::fromStdString(c->GetName()) +
+//                    ".JPG", "JPG");
+//        }
+//    }
+
 
     // initialize required objects
 //

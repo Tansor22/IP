@@ -7,6 +7,7 @@
 
 
 #include <distortions/headers/Distortion.h>
+#include <common/headers/ProjectHelper.h>
 using namespace std;
 class Rotate : public Distortion {
 public:
@@ -14,7 +15,7 @@ public:
 
     virtual QPixmap Distort(QPixmap pixmap);
 
-    inline virtual std::string GetName() { return "ROTATED_" + to_string(_degrees); }
+    inline virtual std::string GetName() { return "ROTATED_" + ProjectHelper::WithPrecision(_degrees, 0); }
 
 private:
     double _degrees;

@@ -71,6 +71,9 @@ public:
     virtual void SetSecondName(string const &name) {
         _secondName = name;
     };
+    virtual void SetName(string const &name) {
+        _name = name;
+    };
     // savers
     void Save(string fileName = string(), const string &format = "JPG");
 

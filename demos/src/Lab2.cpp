@@ -65,17 +65,16 @@ void Lab2::Go() {
 
     for (auto *octave : pyramid) {
         for (Pyramid *layer : *octave->GetLayers()) {
-            string path = itp->GetName() + "_octave " + WithPrecision(layer->GetOctaves() + 1, 3) +
-                          +"-sigma_local" + WithPrecision(layer->GetSigmaLocal(), 3) + "-sigma_global" +
-                          WithPrecision(layer->GetSigmaEffective(), 3) +
-                          "_image" + WithPrecision(layer->GetLayers() + 1, 3);
+            layer->GetItp()->SetSecondName(ImagesHandler::Instance()->GetImageNameById(_imageId) + "_OCTAVE_" + to_string(layer->GetOctaves() + 1) +
+                          "_LEVEL_" + to_string(layer->GetLayers() + 1));
             layer->GetItp()->NormalizeMinMax();
-            layer->GetItp()->Save(path);
+            layer->GetItp()->Save();
         }
     }
     // L(x,y,sigma)
     RgbImage *imgL = L(pyramid, _sigmaL);
-    imgL->Save("L");
+    imgL->SetSecondName(ImagesHandler::Instance()->GetImageNameById(_imageId));
+    imgL->Save("L_");
 }
 
 inline string Lab2::WithPrecision(double value, int precision) {
@@ -96,7 +95,7 @@ RgbImage *Lab2::L(vector<Octave *> pyramid, double sigma) {
         }
         octaveCount++;
     }
-    targetLayer->_itp->Save("TARGET");
+    //targetLayer->_itp->Save("TARGET");
 
     int trans_coeff = pow(2., octaveLevel);
     RgbImage *output = new RgbImage(_pixmap.width(), _pixmap.height());
